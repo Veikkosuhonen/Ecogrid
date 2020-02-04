@@ -1,4 +1,46 @@
 # Ecogrid
-a Processing project that attempts to simulate natural selection and evolution
-The project can be run with the Processing enviroment
+A Processing project that attempts to simulate natural selection and evolution
+The project can be run with the Processing enviroment.
 The linux build doesnt require Processing however and is significantly faster
+
+## Inroduction
+### The Enviroment
+The simulation enviroment is a grid of cells, each of which represents a primary food source. The cells' maximum level of food
+it holds is defined by a map generated with perlin noise. The greener the cell is, the more food it contains. Cells' food amount starts at max, and is decreased when creatures eat the food. The food amount then slowly regenerates until it reaches the max level. 
+
+### The Creatures
+
+#### Creatures have the following mutable attributes, or 'genes':
+
+Decision making:
+* **Food weight**: how they are attracted to food
+* **Smaller creature weight**: how they are attracted to smaller creatures
+* **Bigger creature weight**: how they are attracted to bigger creatures
+* **Birth limit**: at which nutrition level they reproduce.
+
+Physical:
+* **Eat rate**: affects the amount of food they consume per frame
+* **Eat efficiency**: affects the amount of nutrition they gain from eating a certain amount of food
+* **Move efficiency**: affects the amount of nutrition consumed by moving
+* **Strength multiplier**: affects the total **strength** of a creature
+
+The sum of physical attributes' is normalized to zero, meaning that creatures have to 'decide' which physical attributes they prioritise. For example, if a mutation results in an increase of Strength multiplier, other physical attributes have their final values decreased. This feature allows for different survival 'strategies' to emerge. Without this all attributes would be maxed out quickly resulting in all creatures being almost identical.
+
+Cosmetic:
+* **Color**
+* **Shape**
+
+#### Secondary attributes (not passed to offspring):
+
+* **Nutrition**
+* **Strength**: creatures nutrition multiplied by **Strength multiplier**. Higher strength allows them to eat bigger creatures and not get eaten so easily
+* **Size**: the visible size of the creature, defined by its current nutrition
+
+#### During each frame, the creatures take the following actions:
+1. **reproduce** if their nutrition level is above the birth limit
+2. **select target** from the 9 cells around it. Involves **decision making**.
+3. **move** to their target cell. Consumes some nutrition.
+4. **attack** every other creature that has a lower **strength** in their cell and gain their nutrition
+5. **eat** some food from the cell and gain nutrition
+6. **starve** and die if their nutrition goes below zero
+
