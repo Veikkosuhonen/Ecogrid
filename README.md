@@ -10,6 +10,14 @@ it holds is defined by a map generated with perlin noise. The greener the cell i
 
 ### The Creatures
 
+#### During each frame, the creatures take the following actions:
+1. **reproduce** if their **nutrition** is above the birth limit
+2. **select a target** from the 9 cells around it. Involves **decision making**.
+3. **move** to their target cell. Consumes some **nutrition**.
+4. **attack** every other creature that has a lower **strength** in their cell and gain their **nutrition**
+5. **eat** some food from the cell and gain **nutrition**
+6. **starve** and die if their **nutrition** goes below zero
+
 #### Creatures have the following mutable attributes, or 'genes':
 
 Decision making:
@@ -32,15 +40,17 @@ Cosmetic:
 
 #### Secondary attributes (not passed to offspring):
 
-* **Nutrition**
+* **Nutrition**: self-explanatory
 * **Strength**: creatures nutrition multiplied by **Strength multiplier**. Higher strength allows them to eat bigger creatures and not get eaten so easily
-* **Size**: the visible size of the creature, defined by its current nutrition
+* **Size**: the visible size of the creature, defined by its current **nutrition**
 
-#### During each frame, the creatures take the following actions:
-1. **reproduce** if their nutrition level is above the birth limit
-2. **select target** from the 9 cells around it. Involves **decision making**.
-3. **move** to their target cell. Consumes some nutrition.
-4. **attack** every other creature that has a lower **strength** in their cell and gain their nutrition
-5. **eat** some food from the cell and gain nutrition
-6. **starve** and die if their nutrition goes below zero
+#### Decision making
+is simple: each of the 9 cells around the creature is evaluated by summing together
+* The amount of food in the cell multiplied by **Food weight**
+* The number of smaller creatures in the cell multiplied by **Smaller creature weight**
+* The number of bigger creatures in the cell multiplied by **Bigger creature weight**
 
+the cell with the highest weight value is then selected as the target.
+
+#### Reproducing
+is also simple: a new creature is created with exactly 1/3 of the nutrition of the parent. The parents nutrition is also decreased by 1/3. The new creatures genetic attributes are copied from the parent and each is randomly mutated slightly.
