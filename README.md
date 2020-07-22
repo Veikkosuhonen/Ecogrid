@@ -3,7 +3,7 @@ A Processing project that attempts to simulate natural selection and evolution
 The project can be run with the Processing enviroment.
 The linux build doesnt require Processing however and is significantly faster
 
-## Inroduction
+## Introduction
 ### The Enviroment
 The simulation enviroment is a grid of cells, each of which represents a primary food source. The cells' maximum level of food
 it holds is defined by a map generated with perlin noise. The greener the cell is, the more food it contains. Cells' food amount starts at max, and is decreased when creatures eat the food. The food amount then slowly regenerates until it reaches the max level. 
